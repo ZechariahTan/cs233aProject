@@ -8,7 +8,7 @@ import argparse
 
 from data import H36M_Dataset, FMA_Dataset, Movie_Dataset
 from methods.pca import PCA
-from methods.cross_validation import cross_validation
+#from methods.cross_validation import cross_validation
 from metrics import accuracy_fn,mse_fn, macrof1_fn
 from methods.knn import KNN
 from methods.dummy_methods import DummyClassifier, DummyRegressor
@@ -90,19 +90,24 @@ def main(args):
         #### YOUR CODE HERE!
         elif args.method_name == "linear_regression":
             method_obj = LinearRegression()
+            train_labels = train_regression_target
+            search_arg_vals = []
+            search_arg_name = "lambda"
 
         elif args.method_name == "logistic_regression":
             method_obj = LogisticRegression()
+            search_arg_vals = []
+            # search_arg_name =
 
         ###
         ##
 
         # cross validation (MS1)
-        if args.use_cross_validation:
-            print("Using cross validation")
-            best_arg, best_val_acc = cross_validation(method_obj=method_obj, search_arg_name=search_arg_name, search_arg_vals=search_arg_vals, data=train_data, labels=train_labels, k_fold=4)
-            # set the classifier/regression object to have the best hyperparameter found via cross validation:
-            method_obj.set_arguments(best_arg)
+        # if args.use_cross_validation:
+        #     print("Using cross validation")
+        #     best_arg, best_val_acc = cross_validation(method_obj=method_obj, search_arg_name=search_arg_name, search_arg_vals=search_arg_vals, data=train_data, labels=train_labels, k_fold=4)
+        #     # set the classifier/regression object to have the best hyperparameter found via cross validation:
+        #     method_obj.set_arguments(best_arg)
 
         # FIT AND PREDICT:
         method_obj.fit(train_data, train_labels)

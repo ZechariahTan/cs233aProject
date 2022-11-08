@@ -58,11 +58,14 @@ class LinearRegression(object):
         ###
         #### YOUR CODE HERE!
         self.D, self.C = training_data.shape[1], training_labels.shape[1]
-        print(self.D, self.C)
+        w = np.linalg.pinv(training_data.T @ training_data) @ training_data.T @ training_labels
         ###
         ##
+        print(w.shape)
+        pred_regression_targets = training_data.T @ w
+        print(pred_regression_targets.shape)
 
-        return pred_regression_targets
+        # return pred_regression_targets
 
     def predict(self, test_data):
         """
@@ -80,4 +83,4 @@ class LinearRegression(object):
         ###
         ##
 
-        return pred_regression_targets
+        #return pred_regression_targets
