@@ -17,7 +17,9 @@ class LinearRegression(object):
         """
         ##
         ###
-        #### YOUR CODE HERE! 
+        #### YOUR CODE HERE!
+        self.task_kind = 'regression'
+        self.set_arguments(*args, **kwargs)
         ###
         ##
 
@@ -32,6 +34,12 @@ class LinearRegression(object):
         ##
         ###
         #### YOUR CODE HERE! 
+        if "lambda" in kwargs:
+            self.lmda = kwargs["lambda"]
+        elif len(args) > 0:
+            self.lmda = args[0]
+        else:
+            self.lmda = 0   # default to linreg
         ###
         ##
     
@@ -48,7 +56,9 @@ class LinearRegression(object):
         
         ##
         ###
-        #### YOUR CODE HERE! 
+        #### YOUR CODE HERE!
+        self.D, self.C = training_data.shape[1], training_labels.shape[1]
+        print(self.D, self.C)
         ###
         ##
 

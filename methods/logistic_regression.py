@@ -19,7 +19,9 @@ class LogisticRegression(object):
         
         ##
         ###
-        #### YOUR CODE HERE! 
+        #### YOUR CODE HERE!
+        self.task_kind = 'classification'
+        self.set_arguments(*args, **kwargs)
         ###
         ##
 

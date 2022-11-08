@@ -17,7 +17,7 @@ def splitting_fn(data, labels, indices, fold_size, fold):
                 
     ##
     ###
-    #### YOUR CODE HERE! 
+    #### YOUR CODE HERE!
     ###
     ##
 

@@ -87,7 +87,13 @@ def main(args):
         
         ##
         ###
-        #### YOUR CODE HERE! 
+        #### YOUR CODE HERE!
+        elif args.method_name == "linear_regression":
+            method_obj = LinearRegression()
+
+        elif args.method_name == "logistic_regression":
+            method_obj = LogisticRegression()
+
         ###
         ##
 
