@@ -44,7 +44,7 @@ class LogisticRegression(object):
             self.lr, self.max_epochs = 0.1, 100
 
         if "max_epochs" in kwargs:
-            self.max_epochs = kwargs["learning_rate"]
+            self.max_epochs = kwargs["max_epochs"]
         elif len(args) > 1:
             self.max_epochs = args[1]
         ###

@@ -32,9 +32,9 @@ class LinearRegression(object):
         """
         ##
         ###
-        #### YOUR CODE HERE! 
-        if "lambda" in kwargs:
-            self.lmda = kwargs["lambda"]
+        #### YOUR CODE HERE!
+        if "lmda" in kwargs:
+            self.lmda = kwargs["lmda"]
         elif len(args) > 0:
             self.lmda = args[0]
         else:
@@ -45,8 +45,16 @@ class LinearRegression(object):
     def get_w_analytical(self, X_train, Y_train):
         """
             Computes weights for the regression via closed-form solution
-        """
-        return np.linalg.pinv(X_train.T @ X_train) @ X_train.T @ Y_train
+        """        
+        if self.lmda == 0:
+            w = np.linalg.pinv(X_train.T @ X_train) @ X_train.T @ Y_train
+        else:
+            leftmat = np.linalg.inv(X_train.T @ X_train + self.lmda * np.identity(Y_train.shape[1]))
+            w = leftmat @ X_train.T @ Y_train
+
+        print(f"X: {X_train.shape}, Y: {Y_train.shape}, w: {w.shape};; {(X_train.T @ X_train).shape}")
+
+        return w
 
     def append_bias_term(self, X_train):
         """
