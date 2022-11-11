@@ -18,6 +18,14 @@ def splitting_fn(data, labels, indices, fold_size, fold):
     ##
     ###
     #### YOUR CODE HERE!
+    val_start = fold * fold_size    # starting index for val set
+    val_indices = indices[val_start:(val_start + fold_size)]
+    train_indices = np.setdiff1d(indices, val_indices)
+    
+    val_data, val_label = data[val_indices], labels[val_indices]
+    train_data, train_label = data[train_indices], labels[train_indices]
+
+    return train_data, train_label, val_data, val_label
     ###
     ##
 
@@ -45,6 +53,7 @@ def cross_validation(method_obj=None, search_arg_name=None, search_arg_vals=[], 
     ## choose the metric and operation to find best params based on the metric depending upon the
     ## kind of task.
     metric = mse_fn if method_obj.task_kind == 'regression' else macrof1_fn
+    metric_str = "MSE" if method_obj.task_kind == 'regression' else "macro F1"
     find_param_ops = np.argmin if method_obj.task_kind == 'regression' else np.argmax
 
     N = data.shape[0]
@@ -61,25 +70,37 @@ def cross_validation(method_obj=None, search_arg_name=None, search_arg_vals=[], 
 
         acc_list2 = []
         for fold in range(k_fold):
-            
-                    
+               
             ##
             ###
             #### YOUR CODE HERE! 
-            ###
+            ### See steps 1.A.a&b above.
+            train_data, train_label, val_data, val_label = splitting_fn(data, labels, indices, fold_size, fold)
+            method_obj.fit(train_data, train_label)
+            pred_labels = method_obj.predict(val_data)
+            
+            acc = metric(pred_labels, val_label)
+            # print(f"{metric_str}: {acc}")
+            acc_list2.append(acc)
             ##
-        
          
         ##
         ###
         #### YOUR CODE HERE! 
-        ###
+        ### See step 1.B above.        
+        mean_acc = np.mean(acc_list2)
+        print(f"Hyperparameter value: {arg}\tMean {metric_str}: {mean_acc}")
+        acc_list1.append(mean_acc)
         ##
      
     ##
     ###
     #### YOUR CODE HERE! 
-    ###
+    ### See step 2 above.
+    best_idx = find_param_ops(acc_list1)
+    best_hyperparam = search_arg_vals[best_idx]
+    best_acc = acc_list1[best_idx]
+    print(f"Best hyperparameter: {best_hyperparam}\t\tAccuracy: {best_acc}")
     ##
 
 
