@@ -14,6 +14,7 @@ from methods.knn import KNN
 from methods.dummy_methods import DummyClassifier, DummyRegressor
 from methods.logistic_regression import LogisticRegression
 from methods.linear_regression import LinearRegression
+from methods.cross_validation import *
 import time
 
 def main(args):
@@ -89,54 +90,58 @@ def main(args):
         ##
         ###
         #### YOUR CODE HERE!
-        elif args.method_name == "linear_regression":
+        elif args.method_name == "ridge_regression":
             method_obj = LinearRegression(lmda=args.ridge_regression_lmda)
             train_labels = train_regression_target
-            search_arg_vals = []
+            search_arg_vals = [x for x in np.linspace(0, 1., 6)]
             search_arg_name = "lmda"
 
         elif args.method_name == "logistic_regression":
             method_obj = LogisticRegression()
-            search_arg_vals = []
-            # search_arg_name =
+            search_arg_vals = [x for x in np.linspace(0.1, 1., 10)]
+            search_arg_name = "lr"
 
         ###
         ##
 
         # cross validation (MS1)
-        # if args.use_cross_validation:
-        #     print("Using cross validation")
-        #     best_arg, best_val_acc = cross_validation(method_obj=method_obj, search_arg_name=search_arg_name, search_arg_vals=search_arg_vals, data=train_data, labels=train_labels, k_fold=4)
-        #     # set the classifier/regression object to have the best hyperparameter found via cross validation:
-        #     method_obj.set_arguments(best_arg)
+        if args.use_cross_validation:
+            print("Using cross validation")
+            cv_start = time.time()
+            best_arg, best_val_acc = cross_validation(method_obj=method_obj, search_arg_name=search_arg_name, search_arg_vals=search_arg_vals, data=train_data, labels=train_labels, k_fold=4)
+            # set the classifier/regression object to have the best hyperparameter found via cross validation:
+            method_obj.set_arguments(best_arg)
+            cv_end = time.time()
+            print(f"Runtime for cross validation: {cv_end - cv_start} s\n")
 
-        # FIT AND PREDICT:
+        
+        print(f"Method: {args.method_name}")
         start = time.time()
-
+        # FIT AND PREDICT:
         train_pred_labels = method_obj.fit(train_data, train_labels)
         # Train metrics
         if method_obj.task_kind == 'regression':
             loss = mse_fn(train_pred_labels, train_labels)
-            print("Training loss is", loss)
+            print("Training loss:", loss)
         else:
             acc = accuracy_fn(train_pred_labels, train_labels)
-            print("Training classification accuracy is", acc)
+            print("Training classification accuracy:", acc)
             macrof1 = macrof1_fn(train_pred_labels, train_labels)
-            print("Training macro F1 score is", macrof1)
+            print("Training macro F1 score:", macrof1)
         
         pred_labels = method_obj.predict(test_data)
         # Report test results
         if method_obj.task_kind == 'regression':
             loss = mse_fn(pred_labels,test_regression_target)
-            print("Final loss is", loss)
+            print("Final loss:", loss)
         else:
             acc = accuracy_fn(pred_labels,test_labels)
-            print("Final classification accuracy is", acc)
+            print("Final classification accuracy:", acc)
             macrof1 = macrof1_fn(pred_labels,test_labels)
-            print("Final macro F1 score is", macrof1)
+            print("Final macro F1 score:", macrof1)
         
         end = time.time()
-        print(f"Runtime for {args.method_name}: {end - start} s")
+        print(f"Runtime: {end - start} s")
             
         
 if __name__ == '__main__':

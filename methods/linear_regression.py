@@ -52,17 +52,17 @@ class LinearRegression(object):
         leftmat = np.linalg.pinv(X_train.T @ X_train + self.lmda * np.identity(X_train.shape[1]))
         w = leftmat @ X_train.T @ Y_train
 
-        # print(f"X: {X_train.shape}, Y: {Y_train.shape}, w: {w.shape};")
+        # print(f"X: {X_train.shape}, Y: {Y_train.shape}, w: {w.shape}")
 
         return w
 
-    def append_bias_term(self, X_train):
-        """
-            Adds a bias term to the end of the data matrix
-        """
-        ones_column = np.ones([X_train.shape[0], 1])
-        X_train_bias = np.concatenate([X_train, ones_column], axis=1)
-        return X_train_bias
+    # def append_bias_term(self, X_train):
+    #     """
+    #         Adds a bias term to the end of the data matrix
+    #     """
+    #     ones_column = np.ones([X_train.shape[0], 1])
+    #     X_train_bias = np.concatenate([X_train, ones_column], axis=1)
+    #     return X_train_bias
 
     def fit(self, training_data, training_labels):
         """
@@ -76,9 +76,9 @@ class LinearRegression(object):
         ##
         ###
         #### YOUR CODE HERE!
-        training_data_bias = self.append_bias_term(training_data)
-        self.w = self.get_w_analytical(training_data_bias, training_labels)
-        pred_regression_targets = training_data_bias @ self.w
+        # training_data_bias = self.append_bias_term(training_data)
+        self.w = self.get_w_analytical(training_data, training_labels)
+        pred_regression_targets = training_data @ self.w
         ###
         ##
         return pred_regression_targets
@@ -95,8 +95,8 @@ class LinearRegression(object):
         ##
         ###
         #### YOUR CODE HERE!
-        test_data_bias = self.append_bias_term(test_data)
-        pred_regression_targets = test_data_bias @ self.w
+        # test_data_bias = self.append_bias_term(test_data)
+        pred_regression_targets = test_data @ self.w
         ###
         ##
         return pred_regression_targets
