@@ -2,7 +2,7 @@ import numpy as np
 import sys
 sys.path.append('..')
 from utils import label_to_onehot
-
+np.random.seed(0)
 
 class LogisticRegression(object):
     """
@@ -16,14 +16,8 @@ class LogisticRegression(object):
             Initialize the task_kind (see dummy_methods.py)
             and call set_arguments function of this class.
         """
-        
-        ##
-        ###
-        #### YOUR CODE HERE!
         self.task_kind = 'classification'
         self.set_arguments(*args, **kwargs)
-        ###
-        ##
 
     def set_arguments(self, *args, **kwargs):
         """
@@ -32,26 +26,30 @@ class LogisticRegression(object):
             and the number of max iterations (max_iters)
             You can either pass these as args or kwargs.
         """
-        
-        ##
-        ###
-        #### YOUR CODE HERE! 
-        if "learning_rate" in kwargs:
-            self.lr = kwargs["learning_rate"]
-        elif len(args) > 0:
+        if "lr" in kwargs:
+            self.lr = kwargs["lr"]
+        elif len(args) >0 :
             self.lr = args[0]
         else:
-            self.lr, self.max_epochs = 0.1, 100
+            self.lr = 0.01
+        
+        if "max_iters" in kwargs:
+            self.max_iters = kwargs["max_iters"]
+        elif len(args) >0 :
+            self.max_iters = args[0]
+        else:
+            self.max_iters = 10
 
-        if "max_epochs" in kwargs:
-            self.max_epochs = kwargs["max_epochs"]
-        elif len(args) > 1:
-            self.max_epochs = args[1]
-        ###
-        ##
-       
 
-    def fit(self, training_data, training_labels):
+    def f_softmax(data,w):
+        
+        nominator = np.exp(np.dot(np.transpose(w),data))
+        res = upper/np.sum()
+        return res
+
+    def grad_logistic()
+
+    def fit(self, training_labels, training_data, max_iters, k=4):
         """
             Trains the model, returns predicted labels for training data.
             Arguments:
@@ -60,13 +58,11 @@ class LogisticRegression(object):
             Returns:
                 pred_labels (np.array): target of shape (N,regression_target_size)
         """
+        weights = np.random.normal(0, 0.1, [training_data.shape[1], k])
+        for it in range(max_iters):
         
         
-        ##
-        ###
-        #### YOUR CODE HERE! 
-        ###
-        ##
+
 
         return pred_labels
 
