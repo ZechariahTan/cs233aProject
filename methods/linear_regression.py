@@ -30,7 +30,6 @@ class LinearRegression(object):
 
             You can either pass these as args or kwargs.
         """
-
         ##
         ###
         #### YOUR CODE HERE! 
@@ -43,6 +42,19 @@ class LinearRegression(object):
         ###
         ##
     
+    def get_w_analytical(self, X_train, Y_train):
+        """
+            Computes weights for the regression via closed-form solution
+        """
+        return np.linalg.pinv(X_train.T @ X_train) @ X_train.T @ Y_train
+
+    def append_bias_term(self, X_train):
+        """
+            Adds a bias term to the end of the data matrix
+        """
+        ones_column = np.ones([X_train.shape[0], 1])
+        X_train_bias = np.concatenate([X_train, ones_column], axis=1)
+        return X_train_bias
 
     def fit(self, training_data, training_labels):
         """
@@ -53,19 +65,15 @@ class LinearRegression(object):
             Returns:
                 pred_regression_targets (np.array): predicted target of shape (N,regression_target_size)
         """
-        
         ##
         ###
         #### YOUR CODE HERE!
-        self.D, self.C = training_data.shape[1], training_labels.shape[1]
-        w = np.linalg.pinv(training_data.T @ training_data) @ training_data.T @ training_labels
+        training_data_bias = self.append_bias_term(training_data)
+        self.w = self.get_w_analytical(training_data_bias, training_labels)
+        pred_regression_targets = training_data_bias @ self.w
         ###
         ##
-        print(w.shape)
-        pred_regression_targets = training_data.T @ w
-        print(pred_regression_targets.shape)
-
-        # return pred_regression_targets
+        return pred_regression_targets
 
     def predict(self, test_data):
         """
@@ -76,11 +84,11 @@ class LinearRegression(object):
             Returns:
                 pred_regression_targets (np.array): predicted targets of shape (N,regression_target_size)
         """   
-
         ##
         ###
-        #### YOUR CODE HERE! 
+        #### YOUR CODE HERE!
+        test_data_bias = self.append_bias_term(test_data)
+        pred_regression_targets = test_data_bias @ self.w
         ###
         ##
-
-        #return pred_regression_targets
+        return pred_regression_targets

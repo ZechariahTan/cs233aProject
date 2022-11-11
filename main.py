@@ -110,7 +110,17 @@ def main(args):
         #     method_obj.set_arguments(best_arg)
 
         # FIT AND PREDICT:
-        method_obj.fit(train_data, train_labels)
+        train_pred_labels = method_obj.fit(train_data, train_labels)
+        # Train metrics
+        if method_obj.task_kind == 'regression':
+            loss = mse_fn(train_pred_labels, train_labels)
+            print("Training loss is", loss)
+        else:
+            acc = accuracy_fn(train_pred_labels, train_labels)
+            print("Training classification accuracy is", acc)
+            macrof1 = macrof1_fn(train_pred_labels, train_labels)
+            print("Training macro F1 score is", macrof1)
+        
         pred_labels = method_obj.predict(test_data)
         # Report test results
         if method_obj.task_kind == 'regression':
