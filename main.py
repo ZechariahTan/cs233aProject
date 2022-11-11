@@ -112,7 +112,6 @@ def main(args):
 
         # FIT AND PREDICT:
         start = time.time()
-
         train_pred_labels = method_obj.fit(train_data, train_labels)
         # Train metrics
         if method_obj.task_kind == 'regression':
