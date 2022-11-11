@@ -93,7 +93,7 @@ def main(args):
         elif args.method_name == "ridge_regression":
             method_obj = LinearRegression(lmda=args.ridge_regression_lmda)
             train_labels = train_regression_target
-            search_arg_vals = [x for x in np.linspace(0, 1., 6)]
+            search_arg_vals = [x for x in np.linspace(1, 10, 10)]
             search_arg_name = "lmda"
 
         elif args.method_name == "logistic_regression":
