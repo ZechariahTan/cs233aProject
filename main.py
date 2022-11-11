@@ -14,6 +14,7 @@ from methods.knn import KNN
 from methods.dummy_methods import DummyClassifier, DummyRegressor
 from methods.logistic_regression import LogisticRegression
 from methods.linear_regression import LinearRegression
+import time
 
 def main(args):
     # First we create all of our dataset objects. The dataset objects store the data, labels (for classification) and the targets for regression
@@ -110,6 +111,8 @@ def main(args):
         #     method_obj.set_arguments(best_arg)
 
         # FIT AND PREDICT:
+        start = time.time()
+
         train_pred_labels = method_obj.fit(train_data, train_labels)
         # Train metrics
         if method_obj.task_kind == 'regression':
@@ -131,6 +134,9 @@ def main(args):
             print("Final classification accuracy is", acc)
             macrof1 = macrof1_fn(pred_labels,test_labels)
             print("Final macro F1 score is", macrof1)
+        
+        end = time.time()
+        print(f"Runtime for {args.method_name}: {end - start} s")
             
         
 if __name__ == '__main__':

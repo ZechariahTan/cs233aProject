@@ -46,13 +46,13 @@ class LinearRegression(object):
         """
             Computes weights for the regression via closed-form solution
         """        
-        if self.lmda == 0:
-            w = np.linalg.pinv(X_train.T @ X_train) @ X_train.T @ Y_train
-        else:
-            leftmat = np.linalg.inv(X_train.T @ X_train + self.lmda * np.identity(Y_train.shape[1]))
-            w = leftmat @ X_train.T @ Y_train
+        # if self.lmda == 0:
+        #     w = np.linalg.pinv(X_train.T @ X_train) @ X_train.T @ Y_train
+        # else:
+        leftmat = np.linalg.pinv(X_train.T @ X_train + self.lmda * np.identity(X_train.shape[1]))
+        w = leftmat @ X_train.T @ Y_train
 
-        print(f"X: {X_train.shape}, Y: {Y_train.shape}, w: {w.shape};; {(X_train.T @ X_train).shape}")
+        # print(f"X: {X_train.shape}, Y: {Y_train.shape}, w: {w.shape};")
 
         return w
 
