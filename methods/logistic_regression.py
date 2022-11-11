@@ -42,12 +42,41 @@ class LogisticRegression(object):
 
 
     def f_softmax(data,w):
-        
-        nominator = np.exp(np.dot(np.transpose(w),data))
-        res = upper/np.sum()
-        return res
 
-    def grad_logistic()
+        """ Softmax function
+        Args:
+            data (np.array): Input data of shape (N, D)
+            w (np.array): Weights of shape (D, C) where C is # of classes
+            
+        Returns:
+            res (np.array): Probabilites of shape (N, C), where each value is in 
+                range [0, 1] and each row sums to 1.
+        """
+        
+        # nominator = np.exp(np.dot(np.transpose(w),data))
+        # res = upper/np.sum()
+        x_rows, x_cols = data.shape
+        w_rows, w_cols = w.shape
+
+        result = []
+        for row in x_rows:
+            sum = 0
+            for class_w in w_cols:
+                sum += np.exp(np.dot(row,class_w))
+
+            x_i_probability = np.zeros((1, w_cols))
+            for class_w in w_cols:
+                x_i_probability[1,class_w] = (np.exp(np.dot(row,class_w)))/sum
+            result.append(x_i_probability)
+
+        y = np.concatenate( result, axis=0 )
+        print(y.shape)
+
+        return 0
+
+    def grad_logistic():
+
+        return 0
 
     def fit(self, training_labels, training_data, max_iters, k=4):
         """
