@@ -62,14 +62,13 @@ def main(args):
         test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
         # create model
-        model = SimpleNetwork(input_size=train_dataset.feature_dim, num_classes=train_dataset.num_classes, regression_output_size=train_dataset.regression_target_size)
-        
+        model = SimpleNetwork(input_size=train_dataset.feature_dim, num_classes=train_dataset.num_classes)
+
         # training loop
         trainer = Trainer(model, lr=args.lr, epochs=args.max_iters)
         trainer.train_all(train_dataloader, val_dataloader)
-        results_class, results_reg = trainer.eval(test_dataloader)
+        results_class = trainer.eval(test_dataloader)
         torch.save(results_class, "results_class.txt")
-        torch.save(results_reg, "results_reg.txt")
     
     # classical ML methods (MS1 and MS2)
     # we first create the classification/regression objects
